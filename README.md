@@ -3,6 +3,7 @@ A simple plugin that allows user with perms to lock the nuke (You cannot cancel 
 
 # Commands
 Name | Permission | Description | CommandType
+---- | ---------- | ----------- | -----------
 nukelock | nl.nukelock | Switches the Warhead between cancelable and uncancelable | RemoteAdmin
 
 # Config
