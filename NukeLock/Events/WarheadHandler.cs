@@ -9,7 +9,8 @@ namespace NukeLock.Events
         {
             if (!NukeLock.Instance.NukeStatus) return;
 
-            if (NukeLock.Instance.Config.HintTime > 0) ev.Player.ShowHint(NukeLock.Instance.Config.HintMessage, NukeLock.Instance.Config.HintTime);
+            if (NukeLock.Instance.Config.HintTime > 0) 
+                ev.Player.ShowHint(NukeLock.Instance.Config.HintMessage, NukeLock.Instance.Config.HintTime);
 
             ev.IsAllowed = false;
         }
