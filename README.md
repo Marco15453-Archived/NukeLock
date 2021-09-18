@@ -1,5 +1,5 @@
 # NukeLock
-A simple plugin that allows user with perms to lock the nuke (You cannot cancel it after it has been activated)
+A simple plugin that allows Customization of the Warhead
 
 # Commands
 Name | Permission | Description | CommandType
