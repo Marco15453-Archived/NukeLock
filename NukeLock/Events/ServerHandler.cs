@@ -7,29 +7,32 @@ namespace NukeLock.Events
 {
     internal sealed class ServerHandler
     {
+        public NukeLock plugin;
+        public ServerHandler(NukeLock plugin) => this.plugin = plugin;
+
         private CoroutineHandle nukeCoroutine;
         public void onRoundStarted()
         {
-            NukeLock.Instance.NukeStatus = NukeLock.Instance.Config.WarheadCancelable;
-            Warhead.LeverStatus = NukeLock.Instance.Config.WarheadAutoArmed;
+            if (!plugin.Config.WarheadCancelable) Warhead.IsLocked = true;
+            Warhead.LeverStatus = plugin.Config.WarheadAutoArmed;
 
             if (nukeCoroutine != null && nukeCoroutine.IsRunning) Timing.KillCoroutines(nukeCoroutine);
-            if(NukeLock.Instance.Config.AutoNuke > 0) nukeCoroutine = Timing.RunCoroutine(AutoNuke());
+            if(plugin.Config.AutoNuke > 0) nukeCoroutine = Timing.RunCoroutine(AutoNuke());
         }
 
         private IEnumerator<float> AutoNuke()
         {
-            int time = NukeLock.Instance.Config.AutoNuke;
+            int time = plugin.Config.AutoNuke;
 
             while(time > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
 
-                if (time <= NukeLock.Instance.Config.AutoNukePermaBroadcastTimer)
-                    Map.Broadcast(1, NukeLock.Instance.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", time.ToString()), Broadcast.BroadcastFlags.Normal, true);
+                if (time <= plugin.Config.AutoNukePermaBroadcastTimer)
+                    Map.Broadcast(1, plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", time.ToString()), Broadcast.BroadcastFlags.Normal, true);
 
-                if(NukeLock.Instance.Config.CassieWarnings.Count > 0)
-                    foreach (var cassie in NukeLock.Instance.Config.CassieWarnings)
+                if(plugin.Config.CassieWarnings.Count > 0)
+                    foreach (var cassie in plugin.Config.CassieWarnings)
                     {
                         if (cassie.Key == time) Cassie.Message(cassie.Value);
                     }
@@ -38,14 +41,11 @@ namespace NukeLock.Events
 
             yield return Timing.WaitForSeconds(1f);
 
-            if(time <= 0)
-            {
-                if (NukeLock.Instance.Config.DetonationBroadcastTime > 0)
-                    Map.Broadcast(NukeLock.Instance.Config.DetonationBroadcastTime, NukeLock.Instance.Config.DetonationBroadcastMessage, Broadcast.BroadcastFlags.Normal, true);
-                NukeLock.Instance.NukeStatus = true;
-                Warhead.LeverStatus = true;
-                Warhead.Start();
-            }
+            if (plugin.Config.DetonationBroadcastTime > 0)
+                Map.Broadcast(plugin.Config.DetonationBroadcastTime, plugin.Config.DetonationBroadcastMessage, Broadcast.BroadcastFlags.Normal, true);
+            Warhead.LeverStatus = true;
+            Warhead.IsLocked = true;
+            Warhead.Start();
         }
     }
 }

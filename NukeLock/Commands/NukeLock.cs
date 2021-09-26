@@ -14,23 +14,21 @@ namespace NukeLock.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            Player p = Player.Get((CommandSender)sender);
-
-            if (p != null && !p.CheckPermission("nl.nukelock"))
+            if (sender != null && !sender.CheckPermission("nl.nukelock"))
             {
                 response = "You need the 'nl.nukelock' permission to use this Command!";
                 return false;
             }
 
-            if(NukeLock.Instance.NukeStatus) // Cancelable
+            if(Warhead.IsLocked) // Cancelable
             {
                 response = "The Nuke is now Cancelable";
-                NukeLock.Instance.NukeStatus = false;
+                Warhead.IsLocked = false;
                 return true;
             } else // Uncancelable
             {
                 response = "The Nuke is now UNCANCELABLE";
-                NukeLock.Instance.NukeStatus = true;
+                Warhead.IsLocked = true;
                 return true;
             }
         }

@@ -7,21 +7,16 @@ namespace NukeLock
 {
     public class NukeLock : Plugin<Config>
     {
-        internal static NukeLock Instance;
-
         public override string Author => "Marco15453";
         public override string Name => "NukeLock";
-        public override Version Version => new Version(1, 2, 0);
+        public override Version Version => new Version(1, 3, 0);
         public override Version RequiredExiledVersion => new Version(3, 0, 0);
-
-        public bool NukeStatus = false;
 
         private WarheadHandler warheadHandler;
         private ServerHandler serverHandler;
 
         public override void OnEnabled()
         {
-            Instance = this;
             RegisterEvents();
             base.OnEnabled();
         }
@@ -34,8 +29,8 @@ namespace NukeLock
 
         private void RegisterEvents()
         {
-            warheadHandler = new WarheadHandler();
-            serverHandler = new ServerHandler();
+            warheadHandler = new WarheadHandler(this);
+            serverHandler = new ServerHandler(this);
 
             // Server
             Exiled.Events.Handlers.Server.RoundStarted += serverHandler.onRoundStarted;
