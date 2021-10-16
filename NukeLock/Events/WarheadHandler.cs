@@ -12,6 +12,8 @@ namespace NukeLock.Events
         {
             if (!Warhead.IsLocked) return;
 
+            Log.Debug($"{ev.Player.Nickname} tried to stop warhead!", plugin.Config.Debug);
+
             if (plugin.Config.HintTime > 0) 
                 ev.Player.ShowHint(plugin.Config.HintMessage, plugin.Config.HintTime);
 

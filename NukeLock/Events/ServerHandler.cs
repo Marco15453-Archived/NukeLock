@@ -10,36 +10,56 @@ namespace NukeLock.Events
         public NukeLock plugin;
         public ServerHandler(NukeLock plugin) => this.plugin = plugin;
 
+        int AutoNukeTime = 0;
+
         private CoroutineHandle nukeCoroutine;
-        public void onRoundStarted()
+        public void OnRoundStarted()
         {
+            Log.Debug($"Round Started! Killing Coroutines", plugin.Config.Debug);
             if (!plugin.Config.WarheadCancelable) Warhead.IsLocked = true;
             Warhead.LeverStatus = plugin.Config.WarheadAutoArmed;
+            Timing.KillCoroutines(nukeCoroutine);
+            AutoNukeTime = plugin.Config.AutoNuke;
 
-            if (nukeCoroutine != null && nukeCoroutine.IsRunning) Timing.KillCoroutines(nukeCoroutine);
             if(plugin.Config.AutoNuke > 0) nukeCoroutine = Timing.RunCoroutine(AutoNuke());
+        }
+
+        public void OnWaitingForPlayers()
+        {
+            Log.Debug($"Waiting For Players, Killing Coroutines", plugin.Config.Debug);
+            AutoNukeTime = plugin.Config.AutoNuke;
+            Timing.KillCoroutines(nukeCoroutine);
+        }
+
+        public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            Log.Debug($"Round Ended! Killing Coroutines", plugin.Config.Debug);
+            Timing.KillCoroutines(nukeCoroutine);
         }
 
         private IEnumerator<float> AutoNuke()
         {
-            int time = plugin.Config.AutoNuke;
+            Log.Debug($"Warhead Auto Nuke is now ready and will engage in {AutoNukeTime} Seconds", plugin.Config.Debug);
 
-            while(time > 0)
+            while(AutoNukeTime > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
 
-                if (time <= plugin.Config.AutoNukePermaBroadcastTimer)
-                    Map.Broadcast(1, plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", time.ToString()), Broadcast.BroadcastFlags.Normal, true);
+                if (AutoNukeTime <= plugin.Config.AutoNukePermaBroadcastTimer)
+                    Map.Broadcast(1, plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", AutoNukeTime.ToString()), Broadcast.BroadcastFlags.Normal, true);
 
-                if(plugin.Config.CassieWarnings.Count > 0)
+                if(plugin.Config.CassieWarnings.Count > 0 && plugin.Config.CassieWarnings != null)
                     foreach (var cassie in plugin.Config.CassieWarnings)
                     {
-                        if (cassie.Key == time) Cassie.Message(cassie.Value);
+                        if (cassie.Key == AutoNukeTime) Cassie.Message(cassie.Value);
+                        Log.Debug($"Cassie message at {cassie.Key} will now play", plugin.Config.Debug);
                     }
-                time -= 1;
+                AutoNukeTime -= 1;
             }
 
             yield return Timing.WaitForSeconds(1f);
+
+            Log.Debug($"Warhead Auto Nuke is now started.", plugin.Config.Debug);
 
             if (plugin.Config.DetonationBroadcastTime > 0)
                 Map.Broadcast(plugin.Config.DetonationBroadcastTime, plugin.Config.DetonationBroadcastMessage, Broadcast.BroadcastFlags.Normal, true);

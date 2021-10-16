@@ -9,6 +9,9 @@ namespace NukeLock
         [Description("Should the plugin be enabled?")]
         public bool IsEnabled { get; set; } = true;
 
+        [Description("Should debug messages be shown?")]
+        public bool Debug { get; set; } = false;
+
         [Description("Should the Warhead be auto armed at the start of the Round?")]
         public bool WarheadAutoArmed { get; set; } = true;
 
