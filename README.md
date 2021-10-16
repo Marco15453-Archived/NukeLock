@@ -10,6 +10,7 @@ nukelock | nl.nukelock | Switches the Warhead between cancelable and uncancelabl
 Name | Type | Description | Default
 ---- | ---- | ----------- | -------
 is_enabled | bool | Should the plugin be enabled? | true
+debug | bool | Should debug messages be shown? | false
 warhead_auto_armed | bool | Should the Warhead be auto armed at the start of the Round? | true
 auto_nuke | int | After what time should the warhead be automaticly started and can't be stopped (-1 = Disabled) | 900
 auto_nuke_perma_broadcast_timer | int | After what autonuke time should a permanently broadcast be broadcasted across the map to tell the AutoNuke will be activated? %COUNTDOWN% will be replaced with the time left until autonuke will be activated | 30
@@ -26,6 +27,8 @@ cassie_warnings | Dictionary | After what time should a cassie message be broadc
 nuke_lock:
   # Should the plugin be enabled?
   is_enabled: true
+  # Should debug messages be shown?
+  debug: false
   # Should the Warhead be auto armed at the start of the Round?
   warhead_auto_armed: true
   # After what time should the warhead be automaticly started and can't be stopped (-1 = Disabled)
