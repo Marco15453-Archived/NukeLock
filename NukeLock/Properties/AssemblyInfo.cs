@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NukeLock")]
-[assembly: AssemblyDescription("A simple plugin that allows user with perms to lock the nuke (You cannot cancel it after it has been activated)")]
+[assembly: AssemblyDescription("A simple plugin that allows Customization of the Warhead")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Marco15453")]
 [assembly: AssemblyProduct("NukeLock")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.5.0")]
+[assembly: AssemblyFileVersion("1.5.0")]

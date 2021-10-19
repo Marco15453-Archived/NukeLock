@@ -9,9 +9,6 @@ namespace NukeLock
         [Description("Should the plugin be enabled?")]
         public bool IsEnabled { get; set; } = true;
 
-        [Description("Should debug messages be shown?")]
-        public bool Debug { get; set; } = false;
-
         [Description("Should the Warhead be auto armed at the start of the Round?")]
         public bool WarheadAutoArmed { get; set; } = true;
 
@@ -37,7 +34,7 @@ namespace NukeLock
         [Description("What broadcast should be broadcasted when the AutoNuke activates?")]
         public string DetonationBroadcastMessage { get; set; } = "<color=red>The Alpha Warhead Detonation Sequence engaged, <b>This Warhead cannot be stopped</b></color>";
 
-        [Description("After what time should a cassie message be broadcasted?")]
+        [Description("After what time should a cassie message be broadcasted? (Empty = Disabled)")]
         public Dictionary<int, string> CassieWarnings { get; set; } = new Dictionary<int, string>
         {
             { 600, "Attention, all personnel, The Alpha Warhead Emergency Detonation Sequence will be started in TMinus 10 Minutes" },

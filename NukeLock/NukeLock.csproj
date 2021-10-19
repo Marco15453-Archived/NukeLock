@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\NukeArm.cs" />
     <Compile Include="Commands\NukeLock.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Events\ServerHandler.cs" />
