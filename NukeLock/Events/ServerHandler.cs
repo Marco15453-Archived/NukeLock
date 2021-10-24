@@ -10,6 +10,8 @@ namespace NukeLock.Events
         public NukeLock plugin;
         public ServerHandler(NukeLock plugin) => this.plugin = plugin;
 
+        private int AutoNukeTime = 0;
+
         private CoroutineHandle nukeCoroutine;
         public void OnRoundStarted()
         {
@@ -17,34 +19,40 @@ namespace NukeLock.Events
             Warhead.LeverStatus = plugin.Config.WarheadAutoArmed;
             Timing.KillCoroutines(nukeCoroutine);
 
-            if(plugin.Config.AutoNuke > 0) nukeCoroutine = Timing.RunCoroutine(AutoNuke());
+            if(plugin.Config.AutoNuke > 0)
+            {
+                AutoNukeTime = plugin.Config.AutoNuke;
+                nukeCoroutine = Timing.RunCoroutine(AutoNuke());
+            }
         }
 
         public void OnWaitingForPlayers()
         {
+            if (plugin.Config.AutoNuke > 0) AutoNukeTime = plugin.Config.AutoNuke;
             Timing.KillCoroutines(nukeCoroutine);
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
+            if (plugin.Config.AutoNuke > 0) AutoNukeTime = plugin.Config.AutoNuke;
             Timing.KillCoroutines(nukeCoroutine);
         }
 
         private IEnumerator<float> AutoNuke()
         {
-            int time = plugin.Config.AutoNuke;
+            AutoNukeTime = plugin.Config.AutoNuke;
 
-            while(time > 0)
+            while(AutoNukeTime > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
 
-                if (time <= plugin.Config.AutoNukePermaBroadcastTimer)
-                    Map.Broadcast(1, plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", time.ToString()), Broadcast.BroadcastFlags.Normal, true);
+                if (AutoNukeTime <= plugin.Config.AutoNukePermaBroadcastTimer)
+                    Map.Broadcast(1, plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", AutoNukeTime.ToString()), Broadcast.BroadcastFlags.Normal, true);
 
                 if(plugin.Config.CassieWarnings.Count > 0 && plugin.Config.CassieWarnings != null)
                     foreach (var cassie in plugin.Config.CassieWarnings)
-                        if (cassie.Key == time) Cassie.Message(cassie.Value);
-                time -= 1;
+                        if (cassie.Key == AutoNukeTime) Cassie.Message(cassie.Value);
+                AutoNukeTime -= 1;
             }
 
             yield return Timing.WaitForSeconds(1f);
