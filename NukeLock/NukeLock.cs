@@ -12,7 +12,7 @@ namespace NukeLock
     {
         public override string Author => "Marco15453";
         public override string Name => "NukeLock";
-        public override Version Version => new Version(1, 5, 0);
+        public override Version Version => new Version(1, 6, 0);
         public override Version RequiredExiledVersion => new Version(3, 0, 5);
 
         private WarheadHandler warheadHandler;
