@@ -1,5 +1,4 @@
 ﻿using Exiled.API.Features;
-using Exiled.Events.EventArgs;
 using MEC;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace NukeLock.Events
             Warhead.IsLocked = plugin.Config.WarheadCancelable;
             Warhead.LeverStatus = plugin.Config.WarheadAutoArmed;
 
-            if(plugin.Config.AutoNuke > 0)
+            if (plugin.Config.AutoNuke > 0)
                 plugin.nukeCoroutine = Timing.RunCoroutine(AutoNuke());
         }
 
@@ -31,7 +30,7 @@ namespace NukeLock.Events
         {
             AutoNukeTime = plugin.Config.AutoNuke;
 
-            while(AutoNukeTime > 0)
+            while (AutoNukeTime > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
 
@@ -52,7 +51,7 @@ namespace NukeLock.Events
                     {
                         float cassie_duration = Cassie.CalculateDuration(cassie.Value);
                         double annoucement = cassie.Key + Math.Round(cassie_duration, 0);
-                        if (annoucement == AutoNukeTime) 
+                        if (annoucement == AutoNukeTime)
                             Cassie.Message(cassie.Value);
                     }
                 }

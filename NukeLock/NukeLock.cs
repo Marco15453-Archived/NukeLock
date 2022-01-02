@@ -1,8 +1,7 @@
 ﻿using Exiled.API.Features;
+using MEC;
 using NukeLock.Events;
 using System;
-using MEC;
-
 using Server = Exiled.Events.Handlers.Server;
 using Warhead = Exiled.Events.Handlers.Warhead;
 

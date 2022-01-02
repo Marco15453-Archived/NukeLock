@@ -13,13 +13,13 @@ namespace NukeLock.Commands.Subcmds
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if(!sender.CheckPermission("nl.lock"))
+            if (!sender.CheckPermission("nl.lock"))
             {
                 response = "You don't have permission to execute this command. Required permission: nl.lock";
                 return false;
             }
 
-            if(!Warhead.IsLocked)
+            if (!Warhead.IsLocked)
             {
                 Warhead.IsLocked = true;
                 response = "The Alpha Warhead is now locked.";

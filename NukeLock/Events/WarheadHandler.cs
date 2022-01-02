@@ -1,9 +1,9 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs;
-using System.Collections.Generic;
 using MEC;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NukeLock.Events
 {
@@ -22,7 +22,7 @@ namespace NukeLock.Events
         {
             if (!Warhead.IsLocked) return;
 
-            if (plugin.Config.HintTime > 0) 
+            if (plugin.Config.HintTime > 0)
                 ev.Player.ShowHint(plugin.Config.HintMessage, plugin.Config.HintTime);
 
             ev.IsAllowed = false;
@@ -44,7 +44,7 @@ namespace NukeLock.Events
             if (!string.IsNullOrEmpty(plugin.Config.RadiationBeginMessage))
                 Map.Broadcast(5, plugin.Config.RadiationBeginMessage, Broadcast.BroadcastFlags.Normal, true);
 
-            while(true)
+            while (true)
             {
                 yield return Timing.WaitForSeconds(plugin.Config.RadiationInterval);
 
@@ -55,7 +55,7 @@ namespace NukeLock.Events
 
         private IEnumerator<float> DetonationTimer()
         {
-            while(Warhead.DetonationTimer > 0)
+            while (Warhead.DetonationTimer > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
 

@@ -13,13 +13,13 @@ namespace NukeLock.Commands.Subcmds
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if(!sender.CheckPermission("nl.arm"))
+            if (!sender.CheckPermission("nl.arm"))
             {
                 response = "You don't have permission to execute this command. Required permission: nl.arm";
                 return false;
             }
 
-            if(!Warhead.LeverStatus)
+            if (!Warhead.LeverStatus)
             {
                 Warhead.LeverStatus = true;
                 response = "The Alpha Warhead is now armed.";
