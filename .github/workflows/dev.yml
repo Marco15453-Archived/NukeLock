@@ -10,6 +10,7 @@ on:
 
 env:
   EXILED_REFERENCES_URL: https://exiled.host/build_deps/Dev.zip
+  EXILED_SERVERFILES_URL: https://github.com/Exiled-Team/EXILED/releases/download/4.2.2/Exiled.tar.gz
   EXILED_REFERENCES_PATH: D:\a\References
 
 jobs:
@@ -36,6 +37,12 @@ jobs:
         run: |
           Invoke-WebRequest -Uri ${{ env.EXILED_REFERENCES_URL }} -OutFile ${{ github.workspace }}/References.zip
           Expand-Archive -Path References.zip -DestinationPath ${{ env.EXILED_REFERENCES_PATH }}
+          
+      - name: Get Exiled Server Files
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri ${{ env.EXILED_SERVERFILES_URL }} -OutFile ${{ github.workspace }}/Exiled.tar.gz
+          Expand-Archive -Path Exiled.tar.gz -DestinationPath ${{ env.EXILED_REFERENCES_PATH }}
         
       - name: Restore NuGet packages
         run: nuget restore NukeLock.sln
