@@ -1,0 +1,6 @@
+name: NukeLock Dev CI
+
+on:
+  push:
+    branches:
+      - dev
