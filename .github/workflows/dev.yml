@@ -44,6 +44,9 @@ jobs:
           Invoke-WebRequest -Uri ${{ env.EXILED_SERVERFILES_URL }} -OutFile ${{ github.workspace }}/Exiled.tar.gz
           tar -xf Exiled.tar.gz -C ${{ env.EXILED_REFERENCES_PATH }}
         
+      - name: Get Repositories
+        uses: actions/checkout@v2
+       
       - name: Restore NuGet packages
         run: nuget restore NukeLock.sln
         
@@ -51,3 +54,9 @@ jobs:
         env:
           EXILED_REFERENCES: ${{ env.EXILED_REFERENCES_PATH }}
         run: msbuild NukeLock.sln /p:Configuration=Release
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build Results
+          path: bin/Release
