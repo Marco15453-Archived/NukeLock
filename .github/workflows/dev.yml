@@ -22,7 +22,7 @@ jobs:
         uses: microsoft/setup-msbuild@master
       
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@master
+        uses: iRebbok/setup-nuget@master
         
       - name: Get Repositories
         uses: actions/checkout@v2
