@@ -1,6 +1,6 @@
 ﻿using Exiled.API.Features;
-using Exiled.Events.EventArgs;
 using MEC;
+using System;
 using System.Collections.Generic;
 
 namespace NukeLock.Events
@@ -12,46 +12,49 @@ namespace NukeLock.Events
 
         private int AutoNukeTime = 0;
 
-        private CoroutineHandle nukeCoroutine;
         public void OnRoundStarted()
         {
-            if (!plugin.Config.WarheadCancelable) Warhead.IsLocked = true;
+            Warhead.IsLocked = plugin.Config.WarheadCancelable;
             Warhead.LeverStatus = plugin.Config.WarheadAutoArmed;
-            Timing.KillCoroutines(nukeCoroutine);
 
-            if(plugin.Config.AutoNuke > 0)
-            {
-                AutoNukeTime = plugin.Config.AutoNuke;
-                nukeCoroutine = Timing.RunCoroutine(AutoNuke());
-            }
+            if (plugin.Config.AutoNuke > 0)
+                plugin.nukeCoroutine = Timing.RunCoroutine(AutoNuke());
         }
 
         public void OnWaitingForPlayers()
         {
-            if (plugin.Config.AutoNuke > 0) AutoNukeTime = plugin.Config.AutoNuke;
-            Timing.KillCoroutines(nukeCoroutine);
-        }
-
-        public void OnRoundEnded(RoundEndedEventArgs ev)
-        {
-            if (plugin.Config.AutoNuke > 0) AutoNukeTime = plugin.Config.AutoNuke;
-            Timing.KillCoroutines(nukeCoroutine);
+            Timing.KillCoroutines(plugin.nukeCoroutine, plugin.radiationCoroutine, plugin.detonationCoroutine);
         }
 
         private IEnumerator<float> AutoNuke()
         {
             AutoNukeTime = plugin.Config.AutoNuke;
 
-            while(AutoNukeTime > 0)
+            while (AutoNukeTime > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
 
-                if (AutoNukeTime <= plugin.Config.AutoNukePermaBroadcastTimer)
-                    Map.Broadcast(1, plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", AutoNukeTime.ToString()), Broadcast.BroadcastFlags.Normal, true);
+                if (Warhead.IsDetonated)
+                    yield break;
 
-                if(plugin.Config.CassieWarnings.Count > 0 && plugin.Config.CassieWarnings != null)
+                if (AutoNukeTime <= plugin.Config.AutoNukePermaBroadcastTimer)
+                {
+                    string message = plugin.Config.AutoNukePermaBroadcastMessage.Replace("%COUNTDOWN%", AutoNukeTime.ToString());
+                    if (AutoNukeTime <= 1)
+                        message = message.Replace("seconds", "second");
+                    Map.Broadcast(1, message, Broadcast.BroadcastFlags.Normal, true);
+                }
+
+                if (plugin.Config.CassieWarnings.Count > 0 && plugin.Config.CassieWarnings != null)
+                {
                     foreach (var cassie in plugin.Config.CassieWarnings)
-                        if (cassie.Key == AutoNukeTime) Cassie.Message(cassie.Value);
+                    {
+                        float cassie_duration = Cassie.CalculateDuration(cassie.Value);
+                        double annoucement = cassie.Key + Math.Round(cassie_duration, 0);
+                        if (annoucement == AutoNukeTime)
+                            Cassie.Message(cassie.Value);
+                    }
+                }
                 AutoNukeTime -= 1;
             }
 
