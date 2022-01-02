@@ -41,8 +41,15 @@ jobs:
       - name: Get Exiled Server Files
         shell: pwsh
         run: |
+          function Expand-Tar($tarFile, $dest) {
+              if (-not (Get-Command Expand-7Zip -ErrorAction Ignore)) {
+                  Install-Package -Scope CurrentUser -Force 7Zip4PowerShell > $null
+              }
+              Expand-7Zip $tarFile $dest
+          }
+
           Invoke-WebRequest -Uri ${{ env.EXILED_SERVERFILES_URL }} -OutFile ${{ github.workspace }}/Exiled.tar.gz
-          Expand-Archive -Path Exiled.tar.gz -DestinationPath ${{ env.EXILED_REFERENCES_PATH }}
+          Expand-Tar Exiled.tar.gz ${{ env.EXILED_REFERENCES_PATH }}
         
       - name: Restore NuGet packages
         run: nuget restore NukeLock.sln
