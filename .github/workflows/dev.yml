@@ -38,9 +38,3 @@ jobs:
           with:
             name: Build Results
             path: bin/Release
-
-        - name: Upload nuget package
-          uses: actions/upload-artifact@v2
-          with:
-            name: ${{ env.PackageFile }}
-            path: ${{ env.PackageFile }}
