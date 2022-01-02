@@ -31,7 +31,7 @@ jobs:
         
       - name: Setup 7Zip4Powershell
         shell: pwsh
-        run: Install-Package -Scope CurrentUser -ProviderName NuGet -Force 7Zip4PowerShell > $null 
+        run: Install-Package -Scope CurrentUser -ProviderName NuGet -Force 7Zip4PowerShell
         
       - name: Get Repositories
         uses: actions/checkout@v2
