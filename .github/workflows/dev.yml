@@ -24,6 +24,9 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@master
         
+      - name: Get Repositories
+        uses: actions/checkout@v2
+        
       - name: Restore NuGet packages
         run: nuget restore NukeLock.sln
         
