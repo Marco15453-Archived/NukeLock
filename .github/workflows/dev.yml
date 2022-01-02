@@ -28,11 +28,7 @@ jobs:
       
       - name: Setup NuGet
         uses: iRebbok/setup-nuget@master
-        
-      - name: Setup 7Zip4Powershell
-        shell: pwsh
-        run: Install-Package -Scope CurrentUser -ProviderName NuGet -Force 7Zip4PowerShell
-        
+
       - name: Get Repositories
         uses: actions/checkout@v2
         
@@ -45,6 +41,7 @@ jobs:
       - name: Get Exiled Server Files
         shell: pwsh
         run: |
+          Install-Package -Scope CurrentUser -ProviderName NuGet -Force 7Zip4PowerShell
           Invoke-WebRequest -Uri ${{ env.EXILED_SERVERFILES_URL }} -OutFile ${{ github.workspace }}/Exiled.tar.gz
           Expand-7Zip Exiled.tar.gz ${{ env.EXILED_REFERENCES_PATH }}
         
