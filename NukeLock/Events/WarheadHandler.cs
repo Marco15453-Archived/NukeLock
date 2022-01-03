@@ -20,7 +20,8 @@ namespace NukeLock.Events
 
         public void OnStopping(StoppingEventArgs ev)
         {
-            if (!Warhead.IsLocked) return;
+            if (!Warhead.IsLocked || ev.Player == null) 
+                return;
 
             if (plugin.Config.HintTime > 0)
                 ev.Player.ShowHint(plugin.Config.HintMessage, plugin.Config.HintTime);
