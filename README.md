@@ -29,6 +29,8 @@ detonation_broadcast_time | ushort | How long should a broadcast be broadcasted 
 detonation_broadcast_message | string | What broadcast should be broadcasted when the AutoNuke activates? | <color=red>The Alpha Warhead Detonation Sequence engaged, <b>This Warhead cannot be stopped</b></color>
 warhead_detonation_timer | bool | Whether or not a broadcast will be shown to all players to tell how many seconds are remaining until the warhead explodes. | true
 warhead_detonation_message | string | Message to be shown to tell players how many seconds are remaining until the warhead explodes. %COUNTDOWN% will be replaced with the seconds until the warhead detonates | <color=red>Alpha Warhead detonates in T-Minus</color> <color=orange>%COUNTDOWN% seconds</color>
+warhead_disables_team_respawn | bool | Whether or not team respawning will be disabled when the warhead detonated. | true
+warhead_color | Colors | What Color should the warhead have when the warhead starts. (Putting one to -1 will disable it) | 255, 255, 255
 cassie_warnings | Dictionary | After what time should a cassie message be broadcasted? (Empty = Disabled) | 600, 300, 120, 30
 
 # Default Config
@@ -69,6 +71,13 @@ nuke_lock:
   warhead_detonation_timer: true
   # Message to be shown to tell players how many seconds are remaining until the warhead explodes. %COUNTDOWN% will be replaced with the seconds until the warhead detonates
   warhead_detonation_message: <color=red>Alpha Warhead detonates in T-Minus</color> <color=orange>%COUNTDOWN% seconds</color>
+  # Whether or not team respawning will be disabled when the warhead detonated.
+  warhead_disables_team_respawn: true
+  # What Color should the warhead have when the warhead starts. (Putting one to -1 will disable it)
+  warhead_color:
+    red: 255
+    green: 255
+    blue: 255
   # After what time should a cassie message be broadcasted? (Empty = Disabled)
   cassie_warnings:
     600: Attention, all personnel, The Alpha Warhead Emergency Detonation Sequence will be started in TMinus 10 Minutes
