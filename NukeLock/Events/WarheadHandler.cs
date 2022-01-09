@@ -26,6 +26,9 @@ namespace NukeLock.Events
             if (plugin.Config.HintTime > 0)
                 ev.Player.ShowHint(plugin.Config.HintMessage, plugin.Config.HintTime);
 
+            if (plugin.Config.WarheadDetonationTimer)
+                Timing.KillCoroutines(plugin.detonationCoroutine);
+
             ev.IsAllowed = false;
         }
 
@@ -59,6 +62,9 @@ namespace NukeLock.Events
             while (Warhead.DetonationTimer > 0)
             {
                 yield return Timing.WaitForSeconds(1f);
+
+                if (!Warhead.IsInProgress)
+                    yield break;
 
                 string message = plugin.Config.WarheadDetonationMessage.Replace("%COUNTDOWN%", Math.Round(Warhead.DetonationTimer, 0).ToString());
 

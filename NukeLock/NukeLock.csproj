@@ -93,7 +93,8 @@
     <Compile Include="Commands\NukeLockParentCommand.cs" />
     <Compile Include="Commands\Subcmds\Lock.cs" />
     <Compile Include="Commands\Subcmds\Arm.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="Configs\Colors.cs" />
+    <Compile Include="Configs\Config.cs" />
     <Compile Include="Events\ServerHandler.cs" />
     <Compile Include="Events\WarheadHandler.cs" />
     <Compile Include="NukeLock.cs" />

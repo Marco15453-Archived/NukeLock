@@ -1,4 +1,5 @@
 ﻿using Exiled.API.Interfaces;
+using NukeLock.Configs;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -57,6 +58,12 @@ namespace NukeLock
 
         [Description("Message to be shown to tell players how many seconds are remaining until the warhead explodes. %COUNTDOWN% will be replaced with the seconds until the warhead detonates")]
         public string WarheadDetonationMessage { get; set; } = "<color=red>Alpha Warhead detonates in T-Minus</color> <color=orange>%COUNTDOWN% seconds</color>";
+
+        [Description("Whether or not team respawning will be disabled when the warhead detonated.")]
+        public bool WarheadDisablesTeamRespawn { get; set; } = true;
+
+        [Description("What Color should the warhead have when the warhead starts. (Putting one to -1 will disable it)")]
+        public Colors WarheadColor { get; set; } = new Colors();
 
         [Description("After what time should a cassie message be broadcasted? (Empty = Disabled)")]
         public Dictionary<int, string> CassieWarnings { get; set; } = new Dictionary<int, string>

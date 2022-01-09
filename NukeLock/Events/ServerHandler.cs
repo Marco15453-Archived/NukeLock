@@ -1,4 +1,5 @@
 ﻿using Exiled.API.Features;
+using Exiled.Events.EventArgs;
 using MEC;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,17 @@ namespace NukeLock.Events
         public void OnWaitingForPlayers()
         {
             Timing.KillCoroutines(plugin.nukeCoroutine, plugin.radiationCoroutine, plugin.detonationCoroutine);
+
+            if (plugin.Config.WarheadColor.Red >= 0 || plugin.Config.WarheadColor.Blue >= 0 || plugin.Config.WarheadColor.Green >= 0)
+                foreach (Room room in Map.Rooms)
+                    if (room != null && room.FlickerableLightController != null)
+                        room.FlickerableLightController.WarheadLightColor = new UnityEngine.Color(plugin.Config.WarheadColor.Red / 255, plugin.Config.WarheadColor.Green / 255, plugin.Config.WarheadColor.Blue / 255);
+        }
+
+        public void OnRespawningTeam(RespawningTeamEventArgs ev)
+        {
+            if (plugin.Config.WarheadDisablesTeamRespawn && Warhead.IsDetonated)
+                ev.IsAllowed = false;
         }
 
         private IEnumerator<float> AutoNuke()
