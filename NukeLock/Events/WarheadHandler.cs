@@ -45,6 +45,9 @@ namespace NukeLock.Events
         {
             yield return Timing.WaitForSeconds(plugin.Config.RadiationDelay);
 
+            if (!Warhead.IsDetonated)
+                yield break;
+
             if (!string.IsNullOrEmpty(plugin.Config.RadiationBeginMessage))
                 Map.Broadcast(5, plugin.Config.RadiationBeginMessage, Broadcast.BroadcastFlags.Normal, true);
 
