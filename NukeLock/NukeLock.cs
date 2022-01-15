@@ -11,7 +11,7 @@ namespace NukeLock
     {
         public override string Author => "Marco15453";
         public override string Name => "NukeLock";
-        public override Version Version => new Version(1, 8, 1);
+        public override Version Version => new Version(1, 8, 2);
         public override Version RequiredExiledVersion => new Version(4, 2, 2);
 
         public CoroutineHandle nukeCoroutine;
@@ -41,6 +41,7 @@ namespace NukeLock
             // Server
             Server.RoundStarted += serverHandler.OnRoundStarted;
             Server.WaitingForPlayers += serverHandler.OnWaitingForPlayers;
+            Server.RestartingRound += serverHandler.OnRestartingRound;
 
             // Warhead
             Warhead.Starting += warheadHandler.OnStarting;
@@ -53,6 +54,7 @@ namespace NukeLock
             // Server
             Server.RoundStarted -= serverHandler.OnRoundStarted;
             Server.WaitingForPlayers -= serverHandler.OnWaitingForPlayers;
+            Server.RestartingRound -= serverHandler.OnRestartingRound;
 
             // Warhead
             Warhead.Starting -= warheadHandler.OnStarting;

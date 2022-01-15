@@ -22,6 +22,11 @@ namespace NukeLock.Events
                 plugin.nukeCoroutine = Timing.RunCoroutine(AutoNuke());
         }
 
+        public void OnRestartingRound()
+        {
+            Timing.KillCoroutines(plugin.nukeCoroutine, plugin.radiationCoroutine, plugin.detonationCoroutine);
+        }
+
         public void OnWaitingForPlayers()
         {
             Timing.KillCoroutines(plugin.nukeCoroutine, plugin.radiationCoroutine, plugin.detonationCoroutine);

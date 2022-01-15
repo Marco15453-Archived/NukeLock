@@ -45,7 +45,7 @@ namespace NukeLock.Events
         {
             yield return Timing.WaitForSeconds(plugin.Config.RadiationDelay);
 
-            if (!Warhead.IsDetonated)
+            if (!Warhead.IsDetonated || !Round.IsStarted)
                 yield break;
 
             if (!string.IsNullOrEmpty(plugin.Config.RadiationBeginMessage))
