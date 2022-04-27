@@ -11,8 +11,8 @@ namespace NukeLock
     {
         public override string Author => "Marco15453";
         public override string Name => "NukeLock";
-        public override Version Version => new Version(1, 9, 0);
-        public override Version RequiredExiledVersion => new Version(5, 0, 0);
+        public override Version Version => new Version(1, 10, 0);
+        public override Version RequiredExiledVersion => new Version(5, 1, 3);
 
         public CoroutineHandle nukeCoroutine;
         public CoroutineHandle radiationCoroutine;
