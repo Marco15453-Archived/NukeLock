@@ -32,7 +32,7 @@ namespace NukeLock.Events
             Timing.KillCoroutines(plugin.nukeCoroutine, plugin.radiationCoroutine, plugin.detonationCoroutine);
 
             if (plugin.Config.WarheadColor.Red >= 0 || plugin.Config.WarheadColor.Blue >= 0 || plugin.Config.WarheadColor.Green >= 0)
-                foreach (Room room in Map.Rooms)
+                foreach (Room room in Room.List)
                     if (room != null && room.FlickerableLightController != null)
                         room.FlickerableLightController.WarheadLightColor = new UnityEngine.Color(plugin.Config.WarheadColor.Red / 255, plugin.Config.WarheadColor.Green / 255, plugin.Config.WarheadColor.Blue / 255);
         }

@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using MEC;
+using PlayerStatsSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace NukeLock.Events
         {
             yield return Timing.WaitForSeconds(plugin.Config.RadiationDelay);
 
-            if (!Warhead.IsDetonated || !Round.IsStarted)
+            if (!Warhead.IsDetonated)
                 yield break;
 
             if (!string.IsNullOrEmpty(plugin.Config.RadiationBeginMessage))
@@ -55,8 +56,8 @@ namespace NukeLock.Events
             {
                 yield return Timing.WaitForSeconds(plugin.Config.RadiationInterval);
 
-                foreach (Player player in Player.List.Where(x => x.Team != Team.RIP))
-                    player.Hurt(plugin.Config.RadiationDeathReason, plugin.Config.RadiationDamage);
+                foreach (Player player in Player.List.Where(x => x.Role.Team != Team.RIP))
+                    player.Hurt(new CustomReasonDamageHandler(plugin.Config.RadiationDeathReason, plugin.Config.RadiationDamage));
             }
         }
 
