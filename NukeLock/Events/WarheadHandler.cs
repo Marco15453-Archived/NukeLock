@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Features;
-using Exiled.Events.EventArgs;
+using Exiled.Events.EventArgs.Warhead;
 using MEC;
+using PlayerRoles;
 using PlayerStatsSystem;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace NukeLock.Events
 
         public void OnStopping(StoppingEventArgs ev)
         {
-            if (!Warhead.IsLocked || ev.Player == null) 
+            if (!Warhead.IsLocked || ev.Player == null)
                 return;
 
             if (plugin.Config.HintTime > 0)
@@ -56,7 +57,7 @@ namespace NukeLock.Events
             {
                 yield return Timing.WaitForSeconds(plugin.Config.RadiationInterval);
 
-                foreach (Player player in Player.List.Where(x => x.Role.Team != Team.RIP))
+                foreach (Player player in Player.List.Where(x => x.Role.Team != Team.Dead))
                     player.Hurt(new CustomReasonDamageHandler(plugin.Config.RadiationDeathReason, plugin.Config.RadiationDamage));
             }
         }
