@@ -1,3 +1,5 @@
+# THIS PLUGIN HAS BEEN ARCHIVED
+
 # NukeLock
 A simple plugin that allows Customization of the Warhead
 
